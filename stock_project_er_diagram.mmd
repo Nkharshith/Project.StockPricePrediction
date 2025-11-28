@@ -1,0 +1,58 @@
+erDiagram
+    STOCK ||--o{ STOCK_DATA : "has"
+    STOCK_DATA ||--o{ PREDICTION : "used_for"
+    ML_MODEL ||--o{ PREDICTION : "generates"
+    ML_MODEL ||--o{ MODEL_EVALUATION : "produces"
+    USER_REQUEST ||--|| STOCK : "selects"
+    USER_REQUEST ||--o{ ML_MODEL : "chooses"
+    
+    STOCK {
+        string stock_symbol PK
+        string stock_name
+        string file_path
+    }
+    
+    STOCK_DATA {
+        int id PK
+        string stock_symbol FK
+        date date
+        float open_price
+        float high_price
+        float low_price
+        float close_price
+        int volume
+        string name
+    }
+    
+    ML_MODEL {
+        string model_name PK
+        string model_type
+        string description
+    }
+    
+    PREDICTION {
+        int id PK
+        string stock_symbol FK
+        string model_name FK
+        date prediction_date
+        float predicted_price
+        float actual_price
+        date created_at
+    }
+    
+    MODEL_EVALUATION {
+        int id PK
+        string model_name FK
+        string stock_symbol FK
+        float mean_squared_error
+        float test_score
+        date evaluation_date
+    }
+    
+    USER_REQUEST {
+        int request_id PK
+        string stock_symbol FK
+        date request_date
+        string selected_models
+    }
+
